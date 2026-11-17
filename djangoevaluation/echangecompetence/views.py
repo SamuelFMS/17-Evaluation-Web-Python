@@ -42,6 +42,12 @@ class LoginView(generic.FormView):
             return self.form_invalid(form)
 
 
+class LogoutView(generic.View):
+    def post(self, request):
+        logout(request)
+        return redirect(request.POST.get("next", "/"))
+
+
 class DetailActivityView(generic.DetailView):
     model = plannedActivity
     template_name = "echangecompetence/detailActivity.html"

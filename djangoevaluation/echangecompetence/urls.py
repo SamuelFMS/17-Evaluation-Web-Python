@@ -11,4 +11,5 @@ urlpatterns = [
         views.DetailActivityView.as_view(),
         name="detailActivity",
     ),
+    path("logout/", views.LogoutView.as_view(), name="logout"),
 ]

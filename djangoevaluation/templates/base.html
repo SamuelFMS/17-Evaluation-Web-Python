@@ -13,7 +13,17 @@
     <p class="text-2xl font-bold">
         échange</br>compétence
     </p>
+        {% if user.is_authenticated %}
+    <div class="flex">
+        <p>{{ user.username }}</p>
+        <form action="{% url 'echangecompetence:logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="text-white bg-[#00786F] px-2 py-1 rounded-lg">Se déconnecter</button>
+        </form>
+    </div>
+    {% else %}
     <a href="{% url 'echangecompetence:login' %}" class="text-white bg-[#00786F] px-2 py-1 rounded-lg">Se connecter</a>
+    {% endif %}
     {% endblock %}
 </header>
 
