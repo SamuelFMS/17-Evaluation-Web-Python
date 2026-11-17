@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block main %}
+<h1>Prochains créneaux</h1>
 {% if index_tuple.0 and index_tuple.0|length > 0 %}
     <ul>
     {% for planActivity in index_tuple.0 %}
@@ -10,6 +11,7 @@
     <p>Aucune activité planifiée disponible.</p>
 {% endif %}
 
+<h1>Liste des compétences</h1>
 {% if index_tuple.1 and index_tuple.1|length > 0 %}
     <ul>
     {% for sk in index_tuple.1 %}
