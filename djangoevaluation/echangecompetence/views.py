@@ -58,6 +58,15 @@ class ManageSkillView(generic.ListView):
     template_name = "echangecompetence/manage-skill.html"
     context_object_name = "skills"
 
+    def post(self, request):
+        selected_skills = request.POST.getlist("skills")
+        print(selected_skills)
+        belongSkill.objects.filter(user=request.user).delete()
+        for skill_id in selected_skills:
+            skill_instance = skill.objects.get(id=skill_id)
+            belongSkill.objects.create(user=request.user, skill=skill_instance)
+        return redirect(request.path)
+
     def get_queryset(self):
         return skill.objects.annotate(
             user_has_skill=Exists(
