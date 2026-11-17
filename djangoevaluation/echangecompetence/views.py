@@ -1,4 +1,6 @@
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.views import generic
 
 from echangecompetence.forms import LoginForm
@@ -23,9 +25,21 @@ class LoginView(generic.FormView):
     success_url = "/"
 
     def form_valid(self, form):
-        # This method is called when valid form data has been POSTed.
-        # It should return an HttpResponse.
-        return super().form_valid(form)
+        # Here you can add your authentication logic
+        username = form.cleaned_data["username"]
+        password = form.cleaned_data["password"]
+        # Add your authentication logic here
+        # For example, you might check the username and password against a database
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            # Authentication successful
+            login(self.request, user)
+            return super().form_valid(form)
+        else:
+            # Authentication failed
+            form.add_error(None, "Identifiants incorrects.")
+            return self.form_invalid(form)
 
 
 class DetailActivityView(generic.DetailView):

@@ -11,3 +11,14 @@ h1 {
     font-weight: bold;
     color: #000000;
 }
+
+input, textarea, select {
+    border: 1px solid #D1D5DB;
+}
+
+input[type="submit"].default {
+    background-color: #00786F;
+    padding: 0.5rem 1rem;
+    color: #ffffff;
+    border-radius: 0.75rem;
+}
