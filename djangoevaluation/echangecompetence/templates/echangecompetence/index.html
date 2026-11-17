@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+{% block main %}
 {% if index_tuple.0 and index_tuple.0|length > 0 %}
     <ul>
     {% for planActivity in index_tuple.0 %}
@@ -22,3 +24,5 @@
 {% else %}
     <p>Aucune compétence disponible.</p>
 {% endif %}
+
+{% endblock %}
