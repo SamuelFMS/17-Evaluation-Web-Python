@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block main %}
+{% if plannedactivity %}
+    <p>{{ plannedactivity.date }}</p>
+    <h1>{{ plannedactivity.activity }}</h1>
+    <p>{{ plannedactivity.description }}</p>
+    <p>Proposé par : {{ plannedactivity.user }}</p>
+    {% if plannedactivity.reserved_by %}
+        <p>Réservé par : {{ plannedactivity.reserved_by }}</p>
+    {% else %}
+        <p>Non réservé</p>
+    {% endif %}
+{% else %}
+    <p>Activité non trouvée.</p>
+{% endif %}
+{% endblock %}
