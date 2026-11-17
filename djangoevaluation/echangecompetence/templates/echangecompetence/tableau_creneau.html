@@ -1,0 +1,24 @@
+<!-- passage de variable planActivities-->
+<!-- https://tailwindflex.com/@oliver-hansen/table-template-2 -->
+<div class="shadow-lg rounded-lg overflow-hidden mx-4 md:mx-10">
+    <table class="w-full table-fixed">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Date du créneau</th>
+                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Compétence</th>
+                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Activité</th>
+                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Description</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white">
+            {% for planActivity in planActivities %}
+            <tr onclick="location.href='{% url 'echangecompetence:detailActivity' planActivity.id %}'" class="cursor-pointer hover:bg-gray-100">
+                <td class="py-4 px-6 border-b border-gray-200 truncate">{{ planActivity.date }}</td>
+                <td class="py-4 px-6 border-b border-gray-200 truncate">{{ planActivity.activity.skill.name }}</td>
+                <td class="py-4 px-6 border-b border-gray-200 truncate">{{ planActivity.activity.name }}</td>
+                <td class="py-4 px-6 border-b border-gray-200 truncate">{{ planActivity.description }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
