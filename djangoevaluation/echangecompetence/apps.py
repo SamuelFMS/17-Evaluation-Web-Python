@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class EchangecompetenceConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'echangecompetence'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "echangecompetence"
