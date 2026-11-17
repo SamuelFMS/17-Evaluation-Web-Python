@@ -11,5 +11,6 @@ urlpatterns = [
         views.DetailActivityView.as_view(),
         name="detailActivity",
     ),
+    path("manage-skill/", views.ManageSkillView.as_view(), name="manage-skill"),
     path("logout/", views.LogoutView.as_view(), name="logout"),
 ]

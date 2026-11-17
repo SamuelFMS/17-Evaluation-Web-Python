@@ -1,10 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
+from django.db.models import Exists, OuterRef
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views import generic
 
 from echangecompetence.forms import LoginForm
-from echangecompetence.models import plannedActivity, skill
+from echangecompetence.models import belongSkill, plannedActivity, skill
 
 
 class IndexView(generic.ListView):
@@ -51,6 +52,18 @@ class LogoutView(generic.View):
 class DetailActivityView(generic.DetailView):
     model = plannedActivity
     template_name = "echangecompetence/detailActivity.html"
+
+
+class ManageSkillView(generic.ListView):
+    template_name = "echangecompetence/manage-skill.html"
+    context_object_name = "skills"
+
+    def get_queryset(self):
+        return skill.objects.annotate(
+            user_has_skill=Exists(
+                belongSkill.objects.filter(user=self.request.user, skill=OuterRef("pk"))
+            )
+        )
 
 
 def index(request):

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block main %}
+{% for skill in skills %}
+    <input type="checkbox" id="skill_{{ skill.id }}" name="skills" value="{{ skill.id }}" {% if skill.user_has_skill %}checked{% endif %}>
+    <label for="skill_{{ skill.id }}">{{ skill.name }}</label><br>
+{% endfor %}
+{% endblock %}
