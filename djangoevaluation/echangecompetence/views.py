@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Exists, OuterRef
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.views import generic
 
 from echangecompetence.forms import LoginForm, PlannedActivityForm
@@ -12,9 +13,10 @@ class IndexView(generic.ListView):
     context_object_name = "index_tuple"
 
     def get_queryset(self):
-        """Return the last five published questions."""
         return (
-            plannedActivity.objects.order_by("-date")[:5],
+            plannedActivity.objects.filter(date__gte=timezone.now().date()).order_by(
+                "-date"
+            ),
             skill.objects.all(),
         )
 
@@ -56,11 +58,8 @@ class LoginView(generic.FormView):
     success_url = "/"
 
     def form_valid(self, form):
-        # Here you can add your authentication logic
         username = form.cleaned_data["username"]
         password = form.cleaned_data["password"]
-        # Add your authentication logic here
-        # For example, you might check the username and password against a database
         user = authenticate(username=username, password=password)
 
         if user is not None:
