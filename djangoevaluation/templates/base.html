@@ -14,7 +14,10 @@
         échange</br>compétence
     </a>
     {% if user.is_authenticated %}
-    <a href="{% url 'echangecompetence:manage-skill' %}" class="text-gray-700 hover:text-blue-500">Gérer mes compétences</a>
+    <div class="flex space-x-8">
+        <a href="{% url 'echangecompetence:manage-skill' %}" class="text-gray-700 hover:text-blue-500">Gérer mes compétences</a>
+        <a href="{% url 'echangecompetence:plan-activity' %}" class="text-gray-700 hover:text-blue-500">Proposer un créneau</a>
+    </div>
     <div class="flex">
 
         <p>{{ user.username }}</p>

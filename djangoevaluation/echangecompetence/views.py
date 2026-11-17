@@ -1,10 +1,9 @@
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Exists, OuterRef
-from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views import generic
 
-from echangecompetence.forms import LoginForm
+from echangecompetence.forms import LoginForm, PlannedActivityForm
 from echangecompetence.models import belongSkill, plannedActivity, skill
 
 
@@ -18,6 +17,26 @@ class IndexView(generic.ListView):
             plannedActivity.objects.order_by("-date")[:5],
             skill.objects.all(),
         )
+
+
+class PlanActivityView(generic.FormView):
+    template_name = "echangecompetence/plan_activity.html"
+    form_class = PlannedActivityForm
+    success_url = "/"
+
+    def form_valid(self, form):
+        if self.request.user.is_authenticated:
+            planned_activity = plannedActivity(
+                user=self.request.user,
+                activity=form.cleaned_data["activity"],
+                description=form.cleaned_data["description"],
+                date=form.cleaned_data["date"],
+            )
+            planned_activity.save()
+            return super().form_valid(form)
+        else:
+            form.add_error(None, "Vous devez être connecté pour proposer une activité.")
+            return self.form_invalid(form)
 
 
 class LoginView(generic.FormView):
