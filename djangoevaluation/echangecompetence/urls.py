@@ -7,6 +7,7 @@ urlpatterns = [
     path("", views.IndexView.as_view(), name="index"),
     path("login/", views.LoginView.as_view(), name="login"),
     path("plan-activity/", views.PlanActivityView.as_view(), name="plan-activity"),
+    path("my-activities/", views.MyActivitiesView.as_view(), name="my-activities"),
     path(
         "<int:pk>/detailActivity/",
         views.DetailActivityView.as_view(),

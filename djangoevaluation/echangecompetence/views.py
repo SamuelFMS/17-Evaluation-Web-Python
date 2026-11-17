@@ -39,6 +39,17 @@ class PlanActivityView(generic.FormView):
             return self.form_invalid(form)
 
 
+class MyActivitiesView(generic.ListView):
+    template_name = "echangecompetence/myactivities.html"
+    context_object_name = "my_activities"
+
+    def get_queryset(self):
+        return (
+            plannedActivity.objects.filter(user=self.request.user),
+            plannedActivity.objects.filter(reserved_by=self.request.user),
+        )
+
+
 class LoginView(generic.FormView):
     template_name = "echangecompetence/login.html"
     form_class = LoginForm

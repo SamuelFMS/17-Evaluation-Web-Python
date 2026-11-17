@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block main %}
+<p>Vos créneaux proposés :</p>
+{% if my_activities.0 and my_activities.0|length > 0 %}
+    {% include "echangecompetence/tableau_creneau.html" with planActivities=my_activities.0 %}
+{% else %}
+    <p>Aucun créneau proposé.</p>
+{% endif %}
+<p> Vos créneaux réservés :</p>
+{% if my_activities.1 and my_activities.1|length > 0 %}
+    {% include "echangecompetence/tableau_creneau.html" with planActivities=my_activities.1 %}
+{% else %}
+    <p>Aucun créneau réservé.</p>
+{% endif %}
+{% endblock %}
