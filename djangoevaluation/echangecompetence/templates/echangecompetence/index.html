@@ -11,7 +11,7 @@
 {% if index_tuple.1 and index_tuple.1|length > 0 %}
     <ul>
     {% for sk in index_tuple.1 %}
-        <li>{{ sk.name }}</li>
+        <li class="font-bold">{{ sk.name }}</li>
         {% for activity in sk.activity_set.all %}
             <ul>
                 <li>{{ activity.name }}</li>
