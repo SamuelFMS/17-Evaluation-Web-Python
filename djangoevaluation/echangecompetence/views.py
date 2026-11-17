@@ -80,7 +80,3 @@ class ManageSkillView(generic.ListView):
                 belongSkill.objects.filter(user=self.request.user, skill=OuterRef("pk"))
             )
         )
-
-
-def index(request):
-    return HttpResponse("Hello, world. You're at the polls index.")
