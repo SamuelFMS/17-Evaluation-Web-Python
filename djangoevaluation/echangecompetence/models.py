@@ -27,3 +27,10 @@ class plannedActivity(models.Model):
     activity = models.ForeignKey("activity", on_delete=models.CASCADE)
     description = models.TextField()
     date = models.DateField()
+    reserved_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="reserved_by",
+    )

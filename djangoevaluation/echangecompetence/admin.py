@@ -25,7 +25,7 @@ class activityAdmin(admin.ModelAdmin):
 
 
 class plannedActivityAdmin(admin.ModelAdmin):
-    fields = ["user", "activity", "description", "date"]
+    fields = ["user", "activity", "description", "date", "reserved_by"]
     ordering = ["date", "user", "activity__name"]
     search_fields = ["user__username", "activity__name"]
     list_filter = ["user__username", "activity__name", "date"]
