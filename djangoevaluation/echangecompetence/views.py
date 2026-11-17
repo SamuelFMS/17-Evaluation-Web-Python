@@ -53,6 +53,13 @@ class DetailActivityView(generic.DetailView):
     model = plannedActivity
     template_name = "echangecompetence/detailActivity.html"
 
+    def post(self, request, *args, **kwargs):
+        activity = self.get_object()
+        if activity.reserved_by is None and activity.user != request.user:
+            activity.reserved_by = request.user
+            activity.save()
+        return redirect(request.path)
+
 
 class ManageSkillView(generic.ListView):
     template_name = "echangecompetence/manage-skill.html"

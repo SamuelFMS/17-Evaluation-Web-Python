@@ -8,6 +8,10 @@
     {% if plannedactivity.reserved_by %}
         <p>Réservé par : {{ plannedactivity.reserved_by }}</p>
     {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <input type=submit value="Réserver" class="default" {% if plannedactivity.user == request.user %}disabled{% endif %}>
+        </form>
         <p>Non réservé</p>
     {% endif %}
 {% else %}

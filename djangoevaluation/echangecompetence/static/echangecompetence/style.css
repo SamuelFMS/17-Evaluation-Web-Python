@@ -21,4 +21,9 @@ input[type="submit"].default {
     padding: 0.5rem 1rem;
     color: #ffffff;
     border-radius: 0.75rem;
+    cursor: pointer;
+}
+input[type="submit"].default:disabled {
+    background-color: #D1D5DB;
+    cursor: not-allowed;
 }
