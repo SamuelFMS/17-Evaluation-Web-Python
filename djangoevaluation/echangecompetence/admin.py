@@ -3,13 +3,13 @@ from django.contrib import admin
 from .models import Activity, BelongSkill, PlannedActivity, Skill
 
 
-class skillAdmin(admin.ModelAdmin):
+class SkillAdmin(admin.ModelAdmin):
     fields = ["name"]
     ordering = ["name"]
     search_fields = ["name"]
 
 
-class belongSkillAdmin(admin.ModelAdmin):
+class BelongSkillAdmin(admin.ModelAdmin):
     fields = ["user", "skill"]
     ordering = ["user", "skill__name"]
     search_fields = ["user__username", "skill__name"]
@@ -17,7 +17,7 @@ class belongSkillAdmin(admin.ModelAdmin):
     list_display = ["user__username", "skill__name"]
 
 
-class activityAdmin(admin.ModelAdmin):
+class ActivityAdmin(admin.ModelAdmin):
     fields = ["name", "skill"]
     list_display = ["name", "skill__name"]
     ordering = ["skill__name", "name"]
@@ -25,7 +25,7 @@ class activityAdmin(admin.ModelAdmin):
     list_filter = ["skill__name"]
 
 
-class plannedActivityAdmin(admin.ModelAdmin):
+class PlannedActivityAdmin(admin.ModelAdmin):
     fields = ["user", "activity", "description", "date", "reserved_by"]
     ordering = ["date", "user", "activity__name"]
     search_fields = ["user__username", "activity__name"]
@@ -33,7 +33,7 @@ class plannedActivityAdmin(admin.ModelAdmin):
     list_display = ["user", "activity", "description", "date", "reserved_by"]
 
 
-admin.site.register(Skill, skillAdmin)
-admin.site.register(BelongSkill, belongSkillAdmin)
-admin.site.register(Activity, activityAdmin)
-admin.site.register(PlannedActivity, plannedActivityAdmin)
+admin.site.register(Skill, SkillAdmin)
+admin.site.register(BelongSkill, BelongSkillAdmin)
+admin.site.register(Activity, ActivityAdmin)
+admin.site.register(PlannedActivity, PlannedActivityAdmin)
