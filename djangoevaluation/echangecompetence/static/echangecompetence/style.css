@@ -27,3 +27,13 @@ input[type="submit"].default:disabled {
     background-color: #D1D5DB;
     cursor: not-allowed;
 }
+
+div:has(> textarea) {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#plan-activity-form div {
+    margin-bottom: 20px;
+}

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block main %}
-<form method="post">
+<h1 class="pb-3">Proposer un créneau</h1>
+<form method="post" class="w-300 bg-white p-8 rounded-2xl" id="plan-activity-form">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Proposer" class="default">
+    <input type="submit" value="Proposer le créneau" class="default">
 </form>
 {% endblock %}
