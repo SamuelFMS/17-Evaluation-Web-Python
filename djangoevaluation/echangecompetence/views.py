@@ -13,6 +13,18 @@ class IndexView(generic.ListView):
     context_object_name = "index_tuple"
 
     def get_queryset(self):
+        if self.request.user.is_authenticated:
+            has_skill = belongSkill.objects.filter(
+                user=self.request.user, skill=OuterRef("activity__skill__pk")
+            )
+            return (
+                plannedActivity.objects.filter(
+                    Exists(has_skill),
+                    date__gte=timezone.now().date(),
+                ).order_by("-date"),
+                skill.objects.all(),
+            )
+
         return (
             plannedActivity.objects.filter(date__gte=timezone.now().date()).order_by(
                 "-date"
