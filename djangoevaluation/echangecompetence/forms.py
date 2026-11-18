@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import activity
+from .models import Activity
 
 
 class LoginForm(forms.Form):
@@ -9,6 +9,6 @@ class LoginForm(forms.Form):
 
 
 class PlannedActivityForm(forms.Form):
-    activity = forms.ModelChoiceField(queryset=activity.objects.all(), label="Activité")
+    activity = forms.ModelChoiceField(queryset=Activity.objects.all(), label="Activité")
     date = forms.DateField(label="Date", widget=forms.SelectDateWidget)
     description = forms.CharField(label="Description", widget=forms.Textarea)

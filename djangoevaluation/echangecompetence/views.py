@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.views import generic
 
 from echangecompetence.forms import LoginForm, PlannedActivityForm
-from echangecompetence.models import belongSkill, plannedActivity, skill
+from echangecompetence.models import BelongSkill, PlannedActivity, Skill
 
 
 class IndexView(generic.ListView):
@@ -14,22 +14,22 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            has_skill = belongSkill.objects.filter(
+            has_skill = BelongSkill.objects.filter(
                 user=self.request.user, skill=OuterRef("activity__skill__pk")
             )
             return (
-                plannedActivity.objects.filter(
+                PlannedActivity.objects.filter(
                     Exists(has_skill),
                     date__gte=timezone.now().date(),
                 ).order_by("-date"),
-                skill.objects.all(),
+                Skill.objects.all(),
             )
 
         return (
-            plannedActivity.objects.filter(date__gte=timezone.now().date()).order_by(
+            PlannedActivity.objects.filter(date__gte=timezone.now().date()).order_by(
                 "-date"
             ),
-            skill.objects.all(),
+            Skill.objects.all(),
         )
 
 
@@ -40,7 +40,7 @@ class PlanActivityView(generic.FormView):
 
     def form_valid(self, form):
         if self.request.user.is_authenticated:
-            planned_activity = plannedActivity(
+            planned_activity = PlannedActivity(
                 user=self.request.user,
                 activity=form.cleaned_data["activity"],
                 description=form.cleaned_data["description"],
@@ -59,8 +59,8 @@ class MyActivitiesView(generic.ListView):
 
     def get_queryset(self):
         return (
-            plannedActivity.objects.filter(user=self.request.user),
-            plannedActivity.objects.filter(reserved_by=self.request.user),
+            PlannedActivity.objects.filter(user=self.request.user),
+            PlannedActivity.objects.filter(reserved_by=self.request.user),
         )
 
 
@@ -91,7 +91,7 @@ class LogoutView(generic.View):
 
 
 class DetailActivityView(generic.DetailView):
-    model = plannedActivity
+    model = PlannedActivity
     template_name = "echangecompetence/detail_activity.html"
 
     def post(self, request, *args, **kwargs):
@@ -109,15 +109,15 @@ class ManageSkillView(generic.ListView):
     def post(self, request):
         selected_skills = request.POST.getlist("skills")
         print(selected_skills)
-        belongSkill.objects.filter(user=request.user).delete()
+        BelongSkill.objects.filter(user=request.user).delete()
         for skill_id in selected_skills:
-            skill_instance = skill.objects.get(id=skill_id)
-            belongSkill.objects.create(user=request.user, skill=skill_instance)
+            skill_instance = Skill.objects.get(id=skill_id)
+            BelongSkill.objects.create(user=request.user, skill=skill_instance)
         return redirect(request.path)
 
     def get_queryset(self):
-        return skill.objects.annotate(
+        return Skill.objects.annotate(
             user_has_skill=Exists(
-                belongSkill.objects.filter(user=self.request.user, skill=OuterRef("pk"))
+                BelongSkill.objects.filter(user=self.request.user, skill=OuterRef("pk"))
             )
         )
