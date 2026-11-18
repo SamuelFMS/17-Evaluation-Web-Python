@@ -5,8 +5,16 @@
     <h1>{{ plannedactivity.activity }}</h1>
     <p>{{ plannedactivity.description }}</p>
     <p>Proposé par : {{ plannedactivity.user }}</p>
+    {% if plannedactivity.user == request.user or plannedactivity.reserved_by == request.user %}
+    <p>Prénom : {{ plannedactivity.user.first_name }}</p>
+    <p>E-mail : {{ plannedactivity.user.email }}</p>
+    {% endif %}
     {% if plannedactivity.reserved_by %}
         <p>Réservé par : {{ plannedactivity.reserved_by }}</p>
+        {% if plannedactivity.user == request.user or plannedactivity.reserved_by == request.user %}
+        <p>Prénom : {{ plannedactivity.reserved_by.first_name }}</p>
+        <p>E-mail : {{ plannedactivity.reserved_by.email }}</p>
+        {% endif %}
     {% else %}
         <form method="post">
             {% csrf_token %}
