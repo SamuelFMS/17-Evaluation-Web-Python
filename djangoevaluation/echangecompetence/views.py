@@ -54,7 +54,7 @@ class PlanActivityView(generic.FormView):
 
 
 class MyActivitiesView(generic.ListView):
-    template_name = "echangecompetence/myactivities.html"
+    template_name = "echangecompetence/my_activities.html"
     context_object_name = "my_activities"
 
     def get_queryset(self):
@@ -92,7 +92,7 @@ class LogoutView(generic.View):
 
 class DetailActivityView(generic.DetailView):
     model = plannedActivity
-    template_name = "echangecompetence/detailActivity.html"
+    template_name = "echangecompetence/detail_activity.html"
 
     def post(self, request, *args, **kwargs):
         activity = self.get_object()
@@ -103,7 +103,7 @@ class DetailActivityView(generic.DetailView):
 
 
 class ManageSkillView(generic.ListView):
-    template_name = "echangecompetence/manage-skill.html"
+    template_name = "echangecompetence/manage_skill.html"
     context_object_name = "skills"
 
     def post(self, request):
