@@ -9,9 +9,9 @@ urlpatterns = [
     path("plan-activity/", views.PlanActivityView.as_view(), name="plan-activity"),
     path("my-activities/", views.MyActivitiesView.as_view(), name="my-activities"),
     path(
-        "<int:pk>/detailActivity/",
+        "<int:pk>/detail-activity/",
         views.DetailActivityView.as_view(),
-        name="detailActivity",
+        name="detail-activity",
     ),
     path("manage-skill/", views.ManageSkillView.as_view(), name="manage-skill"),
     path("logout/", views.LogoutView.as_view(), name="logout"),

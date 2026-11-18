@@ -12,7 +12,7 @@
         </thead>
         <tbody class="bg-white">
             {% for planActivity in planActivities %}
-            <tr onclick="location.href='{% url 'echangecompetence:detailActivity' planActivity.id %}'" class="cursor-pointer hover:bg-gray-100">
+            <tr onclick="location.href='{% url 'echangecompetence:detail-activity' planActivity.id %}'" class="cursor-pointer hover:bg-gray-100">
                 <td class="py-4 px-6 border-b border-gray-200 truncate">{{ planActivity.date }}</td>
                 <td class="py-4 px-6 border-b border-gray-200 truncate">{{ planActivity.activity.skill.name }}</td>
                 <td class="py-4 px-6 border-b border-gray-200 truncate">{{ planActivity.activity.name }}</td>
