@@ -3,14 +3,14 @@
 <h1 class="pb-2">Vos créneaux proposés</h1>
 <div class="pb-8">
 {% if my_activities.0 and my_activities.0|length > 0 %}
-    {% include "echangecompetence/tableau_creneau.html" with planActivities=my_activities.0 %}
+    {% include "echangecompetence/tableau_creneau.html" with planned_activities=my_activities.0 %}
 {% else %}
     <p>Aucun créneau proposé.</p>
 {% endif %}
 </div>
 <h1 class="pb-2"> Vos créneaux réservés</h1>
 {% if my_activities.1 and my_activities.1|length > 0 %}
-    {% include "echangecompetence/tableau_creneau.html" with planActivities=my_activities.1 %}
+    {% include "echangecompetence/tableau_creneau.html" with planned_activities=my_activities.1 %}
 {% else %}
     <p>Aucun créneau réservé.</p>
 {% endif %}
