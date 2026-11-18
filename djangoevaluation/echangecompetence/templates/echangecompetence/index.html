@@ -7,16 +7,17 @@
     <p>Aucune activité planifiée disponible.</p>
 {% endif %}
 
-<h1>Liste des compétences</h1>
+<h1 class="pt-8">Liste des compétences</h1>
 {% if index_tuple.1 and index_tuple.1|length > 0 %}
-    <ul>
+    <ul class="flex justify-between gap-4">
     {% for sk in index_tuple.1 %}
-        <li class="font-bold">{{ sk.name }}</li>
+        <li class="bg-white mb-5 font-bold w-75 p-8 rounded-2xl">{{ sk.name }}
         {% for activity in sk.activity_set.all %}
-            <ul>
+            <ul class="font-normal">
                 <li>{{ activity.name }}</li>
             </ul>
         {% endfor %}
+        </li>
     {% endfor %}
     </ul>
 {% else %}
