@@ -14,6 +14,7 @@ class belongSkillAdmin(admin.ModelAdmin):
     ordering = ["user", "skill__name"]
     search_fields = ["user__username", "skill__name"]
     list_filter = ["user__username", "skill__name"]
+    list_display = ["user__username", "skill__name"]
 
 
 class activityAdmin(admin.ModelAdmin):
@@ -29,6 +30,7 @@ class plannedActivityAdmin(admin.ModelAdmin):
     ordering = ["date", "user", "activity__name"]
     search_fields = ["user__username", "activity__name"]
     list_filter = ["user__username", "activity__name", "date"]
+    list_display = ["user", "activity", "description", "date", "reserved_by"]
 
 
 admin.site.register(skill, skillAdmin)
