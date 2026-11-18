@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 {% block main %}
+<h1>Gérer mes compétences</h1>
 <form method="post">
     {% csrf_token %}
-    {% for skill in skills %}
+    <div class="bg-white w-fit p-5 rounded-2xl">
 
-    <input type="checkbox" id="skill_{{ skill.id }}" name="skills" value="{{ skill.id }}" {% if skill.user_has_skill %}checked{% endif %}>
-    <label for="skill_{{ skill.id }}">{{ skill.name }}</label><br>
-    {% endfor %}
-    <input type="submit" value="Enregistrer mes compétences" class="default">
+        {% for skill in skills %}
+ 
+        <input type="checkbox" id="skill_{{ skill.id }}" name="skills" value="{{ skill.id }}" class="accent-[#00786F]" {% if skill.user_has_skill %}checked{% endif %}>
+        <label for="skill_{{ skill.id }}" class="inline-block w-100">{{ skill.name }}</label><br>
+        {% endfor %}
+        <input type="submit" value="Enregistrer mes compétences" class="default">
+    </div>
 </form>
 {% endblock %}
