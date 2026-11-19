@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.utils import timezone
 from django.views import generic
 
-from echangecompetence.forms import LoginForm, PlannedActivityForm
+from echangecompetence.forms import InscriptionForm, LoginForm, PlannedActivityForm
 from echangecompetence.models import (
     BelongSkill,
     HelpRequest,
@@ -109,6 +109,24 @@ class ReservedView(generic.View):
             planned_activity.reserved_by = request.user
             planned_activity.save()
         return redirect(request.POST.get("next", "/"))
+
+
+class RegisterView(generic.FormView):
+    template_name = "echangecompetence/register.html"
+    form_class = InscriptionForm
+    success_url = "/"
+
+    def form_valid(self, form):
+        username = form.cleaned_data["username"]
+        email = form.cleaned_data["email"]
+        password = form.cleaned_data["password"]
+        first_name = form.cleaned_data["first_name"]
+        try:
+            User.objects.create_user(username, email, password, first_name=first_name)
+        except Exception as e:
+            form.add_error(None, f"An unexpected error occurred: {e}")
+            return self.form_invalid(form)
+        return super().form_valid(form)
 
 
 class HelpView(generic.View):
