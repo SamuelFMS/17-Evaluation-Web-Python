@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
-from django.db.models import Exists, OuterRef
+from django.contrib.auth.models import User
+from django.db.models import Exists, OuterRef, Q
 from django.shortcuts import redirect
 from django.utils import timezone
 from django.views import generic
@@ -94,11 +95,32 @@ class DetailActivityView(generic.DetailView):
     model = PlannedActivity
     template_name = "echangecompetence/detail_activity.html"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        list_user_got_help = (
+            PlannedActivity.objects.filter(user=self.request.user)
+            .values("reserved_by")
+            .distinct()
+        )
+        list_user_helped = (
+            PlannedActivity.objects.filter(reserved_by=self.request.user)
+            .values("user")
+            .distinct()
+        )
+        context["user_helplist"] = User.objects.filter(
+            Q(pk__in=list_user_got_help) | Q(pk__in=list_user_helped)
+        ).distinct()
+        return context
+
     def post(self, request, *args, **kwargs):
         activity = self.get_object()
-        if activity.reserved_by is None and activity.user != request.user:
-            activity.reserved_by = request.user
-            activity.save()
+        if "reserve" in request.POST:
+            if activity.reserved_by is None and activity.user != request.user:
+                activity.reserved_by = request.user
+                activity.save()
+        elif "askhelp" in request.POST:
+            if activity.user == request.user:
+                print("Asking for help")
         return redirect(request.path)
 
 

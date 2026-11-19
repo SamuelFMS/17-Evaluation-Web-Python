@@ -16,11 +16,33 @@
         <p>E-mail : {{ plannedactivity.reserved_by.email }}</p>
         {% endif %}
     {% else %}
+        {% if plannedactivity.user == request.user %}
         <form method="post">
             {% csrf_token %}
-            <input type=submit value="Réserver" class="default" {% if plannedactivity.user == request.user %}disabled{% endif %}>
+            <select name="select-helplist" id="helplist-select">
+                <option value="">--Veuillez choisir une option--</option>
+                {% for user in user_helplist %}
+                    <option value={use.email}>{{ user.email }}</p>
+                {% endfor %}
+            </select>
+            <input type="email" name="email" id="email-input" placeholder="Adresse e-mail">
+            <script>
+                const select_helplist = document.querySelector("#helplist-select");
+                const email_input = document.querySelector("#email-input");
+                email_input.disabled = false;
+                select_helplist.addEventListener("change",() => {
+                    email_input.disabled = event.target.value;
+                })
+            </script>
+            <input type=submit name="askhelp" value="Demander de l'aide" class="default">
+        </form>
+        {% else %}
+        <form method="post">
+            {% csrf_token %}
+            <input type=submit name="reserve" value="Réserver" class="default">
         </form>
         <p>Non réservé</p>
+        {% endif %}
     {% endif %}
 {% else %}
     <p>Activité non trouvée.</p>
