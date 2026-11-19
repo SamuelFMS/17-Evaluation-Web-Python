@@ -104,7 +104,7 @@ class ReservedView(generic.View):
             planned_activity
             and planned_activity.reserved_by is None
             and planned_activity.user != request.user
-            and request.user.is_authenticated()
+            and request.user.is_authenticated
         ):
             planned_activity.reserved_by = request.user
             planned_activity.save()
