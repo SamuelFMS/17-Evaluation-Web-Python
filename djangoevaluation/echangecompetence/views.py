@@ -6,7 +6,12 @@ from django.utils import timezone
 from django.views import generic
 
 from echangecompetence.forms import LoginForm, PlannedActivityForm
-from echangecompetence.models import BelongSkill, PlannedActivity, Skill
+from echangecompetence.models import (
+    BelongSkill,
+    HelpRequest,
+    PlannedActivity,
+    Skill,
+)
 
 
 class IndexView(generic.ListView):
@@ -127,6 +132,26 @@ class HelpView(generic.View):
                 return redirect(
                     f"{request.POST.get('next', '/')}?error_message=final-email-none"
                 )
+            find_user = User.objects.filter(email=final_email).first()
+            if not find_user:
+                return redirect(
+                    f"{request.POST.get('next', '/')}?error_message=not-final-email"
+                )
+            if find_user == request.user:
+                return redirect(
+                    f"{request.POST.get('next', '/')}?error_message=self-email"
+                )
+            if HelpRequest.objects.filter(
+                user=find_user, planned_activity=planned_activity
+            ).first():
+                return redirect(
+                    f"{request.POST.get('next', '/')}?error_message=already-ask"
+                )
+            HelpRequest.objects.create(
+                user=find_user,
+                planned_activity=planned_activity,
+                date=timezone.now().date(),
+            )
         return redirect(f"{request.POST.get('next', '/')}")
 
 
