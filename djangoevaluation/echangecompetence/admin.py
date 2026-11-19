@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Activity, BelongSkill, PlannedActivity, Skill
+from .models import Activity, BelongSkill, HelpRequest, PlannedActivity, Skill
 
 
 class SkillAdmin(admin.ModelAdmin):
@@ -33,7 +33,13 @@ class PlannedActivityAdmin(admin.ModelAdmin):
     list_display = ["user", "activity", "description", "date", "reserved_by"]
 
 
+class HelpRequestAdmin(admin.ModelAdmin):
+    fields = ["planned_activity", "user", "date"]
+    list_display = ["planned_activity", "user", "date"]
+
+
 admin.site.register(Skill, SkillAdmin)
 admin.site.register(BelongSkill, BelongSkillAdmin)
 admin.site.register(Activity, ActivityAdmin)
 admin.site.register(PlannedActivity, PlannedActivityAdmin)
+admin.site.register(HelpRequest, HelpRequestAdmin)

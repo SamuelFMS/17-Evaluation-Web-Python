@@ -34,3 +34,12 @@ class PlannedActivity(models.Model):
         blank=True,
         related_name="reserved_by",
     )
+
+    def __str__(self):
+        return self.description
+
+
+class HelpRequest(models.Model):
+    date = models.DateField()
+    planned_activity = models.ForeignKey("PlannedActivity", on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
