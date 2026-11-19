@@ -1,20 +1,29 @@
 {% extends "base.html" %}
 {% block main %}
+{% if index_tuple.2 and index_tuple.2|length > 0 %}
+<div class="pb-8">
+<h1>Créneaux proposé a toi</h1>
+{% include "echangecompetence/tableau_creneau.html" with planned_activities=index_tuple.2 %}
+</div>
+{% endif %}
+
+<div class="pb-8">
 <h1>Prochains créneaux</h1>
 {% if index_tuple.0 and index_tuple.0|length > 0 %}
 {% include "echangecompetence/tableau_creneau.html" with planned_activities=index_tuple.0 %}
 {% else %}
     <p>Aucune activité planifiée disponible.</p>
 {% endif %}
+</div>
 
-<h1 class="pt-8">Liste des compétences</h1>
+<h1>Liste des compétences</h1>
 {% if index_tuple.1 and index_tuple.1|length > 0 %}
     <ul class="flex justify-between gap-4">
     {% for sk in index_tuple.1 %}
         <li class="bg-white mb-5 font-bold w-75 p-8 rounded-2xl">{{ sk.name }}
         <ul class="font-normal">
         {% for activity in sk.activity_set.all %}
-                <li>{{ activity.name }}</li>
+            <li>{{ activity.name }}</li>
         {% endfor %}
         </ul>
         </li>

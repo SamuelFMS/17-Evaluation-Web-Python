@@ -29,6 +29,11 @@ class IndexView(generic.ListView):
                     date__gte=timezone.now().date(),
                 ).order_by("-date"),
                 Skill.objects.all(),
+                PlannedActivity.objects.filter(
+                    pk__in=HelpRequest.objects.filter(user=self.request.user).values(
+                        "planned_activity"
+                    )
+                ),
             )
 
         return (
