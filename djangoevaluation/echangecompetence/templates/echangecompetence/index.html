@@ -12,11 +12,11 @@
     <ul class="flex justify-between gap-4">
     {% for sk in index_tuple.1 %}
         <li class="bg-white mb-5 font-bold w-75 p-8 rounded-2xl">{{ sk.name }}
+        <ul class="font-normal">
         {% for activity in sk.activity_set.all %}
-            <ul class="font-normal">
                 <li>{{ activity.name }}</li>
-            </ul>
         {% endfor %}
+        </ul>
         </li>
     {% endfor %}
     </ul>
