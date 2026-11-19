@@ -15,4 +15,6 @@ urlpatterns = [
     ),
     path("manage-skill/", views.ManageSkillView.as_view(), name="manage-skill"),
     path("logout/", views.LogoutView.as_view(), name="logout"),
+    path("reserved/", views.ReservedView.as_view(), name="reserved"),
+    path("ask-help/", views.HelpView.as_view(), name="ask-help"),
 ]

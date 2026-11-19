@@ -88,7 +88,46 @@ class LoginView(generic.FormView):
 class LogoutView(generic.View):
     def post(self, request):
         logout(request)
+        return redirect("/")
+
+
+class ReservedView(generic.View):
+    def post(self, request):
+        planned_activity_id = request.POST.get("planned_activity_id")
+        planned_activity = PlannedActivity.objects.get(pk=planned_activity_id)
+        if (
+            planned_activity
+            and planned_activity.reserved_by is None
+            and planned_activity.user != request.user
+            and request.user.is_authenticated()
+        ):
+            planned_activity.reserved_by = request.user
+            planned_activity.save()
         return redirect(request.POST.get("next", "/"))
+
+
+class HelpView(generic.View):
+    success_url = "/"
+
+    def post(self, request):
+        print("test")
+        planned_activity_id = request.POST.get("planned_activity_id")
+        planned_activity = PlannedActivity.objects.filter(
+            pk=planned_activity_id
+        ).first()
+        if not planned_activity:
+            return redirect(
+                f"{request.POST.get('next', '/')}?error_message=aucun-planned-activity"
+            )
+        if planned_activity.user == request.user:
+            selector_email = request.POST.get("select-helplist", "")
+            input_email = request.POST.get("email", "")
+            final_email = selector_email or input_email
+            if not final_email:
+                return redirect(
+                    f"{request.POST.get('next', '/')}?error_message=final-email-none"
+                )
+        return redirect(f"{request.POST.get('next', '/')}")
 
 
 class DetailActivityView(generic.DetailView):
@@ -97,31 +136,24 @@ class DetailActivityView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        list_user_got_help = (
-            PlannedActivity.objects.filter(user=self.request.user)
-            .values("reserved_by")
-            .distinct()
-        )
-        list_user_helped = (
-            PlannedActivity.objects.filter(reserved_by=self.request.user)
-            .values("user")
-            .distinct()
-        )
-        context["user_helplist"] = User.objects.filter(
-            Q(pk__in=list_user_got_help) | Q(pk__in=list_user_helped)
-        ).distinct()
+        if (
+            self.request.user.is_authenticated
+            and self.request.user == context["plannedactivity"].user
+        ):
+            list_user_got_help = (
+                PlannedActivity.objects.filter(user=self.request.user)
+                .values("reserved_by")
+                .distinct()
+            )
+            list_user_helped = (
+                PlannedActivity.objects.filter(reserved_by=self.request.user)
+                .values("user")
+                .distinct()
+            )
+            context["user_helplist"] = User.objects.filter(
+                Q(pk__in=list_user_got_help) | Q(pk__in=list_user_helped)
+            ).distinct()
         return context
-
-    def post(self, request, *args, **kwargs):
-        activity = self.get_object()
-        if "reserve" in request.POST:
-            if activity.reserved_by is None and activity.user != request.user:
-                activity.reserved_by = request.user
-                activity.save()
-        elif "askhelp" in request.POST:
-            if activity.user == request.user:
-                print("Asking for help")
-        return redirect(request.path)
 
 
 class ManageSkillView(generic.ListView):

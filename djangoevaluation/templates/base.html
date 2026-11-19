@@ -24,6 +24,7 @@
         <p>{{ request.user.username }}</p>
         <form action="{% url 'echangecompetence:logout' %}" method="post">
             {% csrf_token %}
+             <input type="hidden" name="next" value="{{ request.get_full_path }}">
             <button type="submit" class="text-white bg-[#00786F] px-2 py-1 rounded-lg">Se déconnecter</button>
         </form>
     </div>
@@ -34,6 +35,11 @@
 </header>
 
 <main class="w-full h-full px-20 py-10">
+    {% if request.GET.error_message %}
+        <p class="text-red-500">
+            {% if request.GET.error_message == "aucun-planned-activity" %}Aucune activité trouvée.
+            {% else %}Une erreur est survenue{% endif %}</p>
+    {% endif %}
     {% block main %}
     {% endblock %}
 </main>
