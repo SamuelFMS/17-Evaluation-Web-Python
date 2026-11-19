@@ -7,7 +7,10 @@
                 <th class="w-1/4 py-4 px-6 text-left text-gray-600  font-bold uppercase">Date du créneau</th>
                 <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Compétence</th>
                 <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Activité</th>
-                <th class="w-1/4 py-4 px-6 text-left text-gray-600 font-bold uppercase">Description</th>
+                <th class="w-1/2 py-4 px-6 text-left text-gray-600 font-bold uppercase">Description</th>
+                <th class="w-1/6 py-4 px-6 text-left text-gray-600 font-bold uppercase">Proposé par</th>
+                <th class="w-1/6 py-4 px-6 text-left text-gray-600  font-bold uppercase">Réservé</th>
+
             </tr>
         </thead>
         <tbody class="bg-white">
@@ -17,6 +20,8 @@
                 <td class="py-4 px-6 border-b border-gray-200 truncate">{{ planned_activity.activity.skill.name }}</td>
                 <td class="py-4 px-6 border-b border-gray-200 truncate">{{ planned_activity.activity.name }}</td>
                 <td class="py-4 px-6 border-b border-gray-200 truncate">{{ planned_activity.description }}</td>
+                <td class="py-4 px-6 border-b border-gray-200 truncate">{{ planned_activity.user }}</td>
+                <td class="py-4 px-6 border-b border-gray-200 truncate">{% if planned_activity.reserved_by %}✔️{% else %}{% endif %}</td>
             </tr>
             {% endfor %}
         </tbody>
