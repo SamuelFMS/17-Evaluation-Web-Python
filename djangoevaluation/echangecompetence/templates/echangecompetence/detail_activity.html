@@ -19,7 +19,7 @@
         {% if plannedactivity.user == request.user %}
         <form method="post" id="formEmail" action="{% url "echangecompetence:ask-help" %}">
             {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <input type="hidden" name="next" value="{{ request.path }}">
             <input type="hidden" name="planned_activity_id" value="{{ plannedactivity.id }}">
             <select name="select-helplist" id="helplist-select">
                 <option value="">--Veuillez choisir une option--</option>
@@ -41,7 +41,7 @@
         {% else %}
         <form method="post" action="{% url "echangecompetence:reserved" %}">
             {% csrf_token %}
-            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <input type="hidden" name="next" value="{{ request.path }}">
             <input type="hidden" name="planned_activity_id" value="{{ plannedactivity.id }}">
             <input type=submit name="reserve" value="Réserver" class="default">
         </form>
