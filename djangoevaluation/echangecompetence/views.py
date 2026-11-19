@@ -210,7 +210,7 @@ class ManageSkillView(generic.ListView):
         for skill_id in selected_skills:
             skill_instance = Skill.objects.get(id=skill_id)
             BelongSkill.objects.create(user=request.user, skill=skill_instance)
-        return redirect(request.path)
+        return redirect("/")
 
     def get_queryset(self):
         return Skill.objects.annotate(
